@@ -1,5 +1,10 @@
+/**
+ * !stop command
+ * Close from Discord.
+ */
+
 exports.run = (client, message, args) => {
-    if(message.author.username === client.config.owner){ //need to update to id later, anyone with same username can stop
+    if(message.author.id === client.config.owner) {
         client.destroy();
     }
 }
