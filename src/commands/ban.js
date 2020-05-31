@@ -13,7 +13,7 @@ exports.run = (client, message, args) => {
     }
 
     for(var i = 0; i < client.userList.length; i++){
-        if(message.author.username === client.userList[i].name){
+        if(message.author.id === client.userList[i].id){
             var banList = client.userList[i].bans;
             if(args[0] === 'list'){
                 var reply = message.author.username + "'s banned Gods are: ";
