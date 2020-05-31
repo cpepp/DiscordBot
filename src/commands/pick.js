@@ -10,9 +10,16 @@ exports.run = (client, message, args) => {
         return;
     }
     var role = args[0].trim().toLowerCase();
-    var reply = message.author.username + ", your pick is: ";
+    var reply = "your pick is: ";
 
     console.log(message.author.username + " is picking a " + role + "...");
+
+    const roleList = ['guardian', 'hunter', 'mage', 'assassin', 'warrior'];
+    var val = roleList.includes(role);
+    if(val == false){
+        message.channel.send("Invalid role type given.");
+        return;
+    }
 
     var millOffset = new Date().getTimezoneOffset() * 60000; //gets offset of local timezone from UTC
     var time = (Date.parse(client.sessionInfo.timestamp) - millOffset); //gets timestamp from session
@@ -32,11 +39,12 @@ exports.run = (client, message, args) => {
         });
     }
 
-    const roleList = ['guardian', 'hunter', 'mage', 'assassin', 'warrior'];
-    var val = roleList.includes(role);
-    if(val == false){
-        message.channel.send("Invalid role type given.");
-        return;
+    var user = '';
+    for (var i = 0; i < client.userList.length; i++) {
+        if(client.userList[i].id == message.author.id) {
+            user = client.userList[i];
+            break;
+        }
     }
 
     var URL = session.loadgods(client.sessionInfo.session_id); //creates URL for getgods method
@@ -44,13 +52,18 @@ exports.run = (client, message, args) => {
     .then(response => response.json())
     .then(result => {
         var gods = [];
-        for(var i = 0; i < result.length; i++){
-            if(result[i].Roles.trim().toLowerCase() === role){
-                gods.push(result[i]);
+        result.forEach(godData => {
+            if(godData.Roles.trim().toLowerCase() === role) {
+                gods.push(godData);
             }
-        }
+        });
+        
+        gods = gods.filter(function(ind) {
+            return !user.bans.includes(ind);
+        });
+        console.log(gods);
         var p = Math.floor(Math.random() * gods.length);
-        message.channel.send(reply + gods[p].Name, 
+        message.channel.reply(reply + gods[p].Name, 
                             {files: [gods[p].godIcon_URL]});
     });
 }
