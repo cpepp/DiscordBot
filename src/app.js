@@ -12,9 +12,25 @@ const fs = require("fs");
 const Enmap = require("enmap");
 const config = require("./../config.json");
 const write = require("./write.js");
-
+const session = require("./session.js");
 const client = new Discord.Client();
 client.config = config;
+
+var sessionInfo = '';
+client.sessionInfo = sessionInfo;
+
+if(fs.existsSync("./../session.json")) {
+	fs.readFile("./../session.json", function (er, jsonString) {
+		if(er){
+			console.log("Failed ", er);
+			return;
+		}
+		console.log("Load previous session info.");
+		client.sessionInfo = JSON.parse(jsonString);
+	});
+} else {
+	session.session();
+}
 
 var userList = [];
 client.userList = userList;

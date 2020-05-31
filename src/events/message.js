@@ -7,7 +7,7 @@ module.exports = (client, message) =>{
 
     var noAccount = true;
     for(var i = 0; i < client.userList.length; i++){
-        if(client.userList[i].name === message.author.username){
+        if(client.userList[i].id === message.author.id){
             noAccount = false;
             break;
         }
@@ -15,13 +15,15 @@ module.exports = (client, message) =>{
 
     if(noAccount){
         var info = {
+            id : message.author.id,
             name : message.author.username,
             bans: [ ]
         };
         client.userList.push(info);
         write.write(JSON.stringify(client.userList));
-        console.log("Added new user: " + message.author.username);
+        console.log("Added new user: " + message.author.username + " with ID " + message.author.id);
     }
+    
     const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     
