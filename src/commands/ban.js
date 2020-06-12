@@ -18,9 +18,9 @@ exports.run = (client, message, args) => {
 
     for (var i = 0; i < client.userList.length; i++) {
         if (message.author.id === client.userList[i].id) {
-            var banList = client.userList[i].bans;
+            let banList = client.userList[i].bans;
             if (args[0] === 'list') { //lists banned gods
-                var reply = message.author.username + "'s banned Gods are: ";
+                let reply = message.author.username + "'s banned Gods are: ";
                 for (var j = 0; j < banList.length; j++) {
                     reply += banList[j];
                     if (j != banList.length - 1) {
@@ -39,25 +39,24 @@ exports.run = (client, message, args) => {
                     message.channel.send("Cleared " + message.author.username + "'s ban list.");
                     return;
                 }
-                var godName = '';
+                let godName = '';
                 for (var i = 1; i < args.length; i++) {
                     godName += args[i];
                 }
-                var ind = banList.indexOf(godName.toLowerCase());
-                if (ind > -1) {
+                if (banList.indexOf(godName.toLowerCase()) > -1) {
                     banList.splice(ind, 1);
                 }
                 write.write(JSON.stringify(client.userList));
                 message.channel.send("Removed " + args[1] + " from " + message.author.username + "'s God ban list.");
             } else { //adds god to list
-                var godName = '';
+                let godName = '';
                 args.forEach(str => { //for gods with multi string names, Ao Kuang, Hun Batz, etc.
                     godName += " " + str;
                 });
 
                 let godData = client.godList; //get gods list
 
-                var gods = []; //array of lowercase god names
+                let gods = []; //array of lowercase god names
                 Object.keys(godData).forEach(key => {
                     gods.push(godData[key].Name.toLowerCase());
                 });

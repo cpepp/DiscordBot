@@ -7,19 +7,18 @@ exports.run = async (client, message, args) => {
         message.channel.send("Try !pick [class] [SMITE username (optional)] to get a random God pick!");
         return;
     }
-    var role = args[0].trim().toLowerCase();
-    var reply = "your pick is: ";
+    let role = args[0].trim().toLowerCase();
+    const reply = "your pick is: ";
 
     console.log(message.author.username + " is picking a " + role + "...");
 
     const roleList = ['guardian', 'hunter', 'mage', 'assassin', 'warrior'];
-    var val = roleList.includes(role);
-    if (!val) {
+    if (!roleList.includes(role)) {
         message.channel.send("Invalid role type given.");
         return;
     }
 
-    var user = '';
+    let user = '';
     for (var i = 0; i < client.userList.length; i++) {
         if (client.userList[i].id == message.author.id) {
             user = client.userList[i]; //getting the user, to know which banlist to use
@@ -29,18 +28,18 @@ exports.run = async (client, message, args) => {
 
     let godData = client.godList;
 
-    var gods = [];
+    let gods = [];
     Object.keys(godData).forEach(key => {
         if (godData[key].Roles.trim().toLowerCase() === role) {
             gods.push(godData[key]);
         }
     });
 
-    var subgods = gods.filter(function (ind) {
+    let subgods = gods.filter(function (ind) { //fix to filter ban list
         return user.bans.indexOf(ind) === -1;
     });
 
-    var p = Math.floor(Math.random() * subgods.length);
+    let p = Math.floor(Math.random() * subgods.length);
 
     message.reply(reply + subgods[p].Name,
         { files: [subgods[p].godIcon_URL] });

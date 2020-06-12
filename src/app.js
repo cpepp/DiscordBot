@@ -19,14 +19,14 @@ client.config = config;
 
 client.sessionInfo;
 
-var sess = async () => {
+const sess = async () => {
 	let info = await fspr.readFile("./session.json", "utf-8");
 	console.log("Loading session info.");
 	return JSON.parse(info);
 }
 
 client.godList;
-var lGods = async () => {
+const lGods = async () => {
 	try {
 		let check = await session.checkSession();
 		if (check) {
@@ -42,7 +42,7 @@ var lGods = async () => {
 
 lGods(); //loads gods into godList variable for global use
 
-var userList = [];
+let userList = [];
 client.userList = userList;
 
 try {

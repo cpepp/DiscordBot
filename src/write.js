@@ -5,7 +5,7 @@ const fs = require("fs");
  */
 
 exports.write = function (info) {
-    fs.writeFile("./../users.json", info, function (e, result) {
+    fs.writeFile("./users.json", info, function (e, result) {
         if (e) {
             console.log("Did not create new file", e);
             return;

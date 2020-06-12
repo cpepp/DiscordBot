@@ -5,7 +5,7 @@ module.exports = (client, message) => {
         return;
     }
 
-    var noAccount = true;
+    let noAccount = true;
     for (var i = 0; i < client.userList.length; i++) { //checks if user already has data in json, probably better way to check
         if (client.userList[i].id === message.author.id) {
             noAccount = false;
@@ -14,7 +14,7 @@ module.exports = (client, message) => {
     }
 
     if (noAccount) { //if they aren't, a new account is made to track their bans
-        var info = {
+    let info = {
             id: message.author.id,
             name: message.author.username,
             bans: []

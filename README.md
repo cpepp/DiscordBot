@@ -7,7 +7,7 @@ Used to implement some features to use with SMITE.
 -----------------------------------
 * !pick [class] [SMITE username (optional)]
 
-Picks a SMITE God based on given class, if the user enters their SMITE username, it will give weight to picks depending on when the God was last played based on match history, worshipper count, and more.
+Picks a SMITE God based on given class, if the user enters their SMITE username, it will give weight to picks depending on when the God was last played based on match history, worshipper count, and more. (user based picking to be added!)
 
 > Potential Features: Pick by role, pantheon, damage type
 
@@ -21,15 +21,15 @@ Adds given SMITE God to users' ban list. This character can no longer be randoml
 
 Lists the users' banned God list.
 
-* !ban remove [SMITE God]
+* !ban remove [SMITE God or all]
 
-Removes the SMITE God from users' ban list.
+Removes the SMITE God from users' ban list. Using [all] clears the users' ban list.
 
 > Potential Features: Wider blanket bans, ban Gods with zero worshippers, ban max rank Gods, etc.
 
-# Future features
+# Future features?
 ----------------
 * User statistics (Match history, God stats, etc.)
 * Challenge feature (Gives match type, God to play, etc.)
-* Build guide/Random build (Gives build for a God, makes random build for a God, different settings can be give like damage, tank)
+* Build guide/Random build (Gives build for a God, makes random build for a God, different settings can be given like damage, tank)
 * Team compositions (Playing with multiple people, makes random team composition)
