@@ -4,7 +4,7 @@
  */
 
 exports.run = (client, message, args) => {
-    if(message.author.id === client.config.owner) {
+    if (message.author.id === client.config.owner) {
         client.destroy();
     }
 }

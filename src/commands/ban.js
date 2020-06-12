@@ -2,6 +2,7 @@ const write = require("./../write.js");
 const session = require("./../session.js");
 const fs = require("fs");
 const fetch = require("node-fetch");
+const app = require("./../app.js");
 
 exports.run = (client, message, args) => {
     //example commands
@@ -32,8 +33,8 @@ exports.run = (client, message, args) => {
                     message.channel.send("Specify a God to remove from ban list.");
                     return;
                 }
-                if(args[1] === 'all'){
-                    banList = [];
+                if (args[1] === 'all') {
+                    banList.length = 0;
                     write.write(JSON.stringify(client.userList));
                     message.channel.send("Cleared " + message.author.username + "'s ban list.");
                     return;
@@ -51,26 +52,10 @@ exports.run = (client, message, args) => {
             } else {
                 var godName = '';
                 args.forEach(str => { //for gods with multi string names, Ao Kuang, Hun Batz, etc.
-                    godName += str;
+                    godName += " " + str;
                 });
-                
-                var millOffset = new Date().getTimezoneOffset() * 60000; //gets offset of local timezone from UTC
-                var time = (Date.parse(client.sessionInfo.timestamp) - millOffset); //gets timestamp from session
-                //since it's converted as if it were local, we have to subtract the offset to get the actual UTC time
-                var diff = Date.now() - time; //finds time diff between now and when last session was made
-                
-                if(diff > 900000) { //since sessions are only 15 min, if the diff is greater a new session is created
-                    console.log("Previous session is no longer valid.");
-                    session.session(); //creates new session
-                    fs.readFile("./../../session.json", function (er, jsonString) {
-                        if(er) {
-                            console.log("Failed ", er);
-                            return;
-                        }
-                        console.log("Loading new session info.");
-                        client.sessionInfo = JSON.parse(jsonString); //loads new session into variable
-                    });
-                }
+
+                session.checkSession();
 
                 var URL = session.loadgods(client.sessionInfo.session_id);
                 fetch(URL) //gets god list
@@ -80,12 +65,12 @@ exports.run = (client, message, args) => {
                         result.forEach(god => {
                             gods.push(god.Name.toLowerCase());
                         });
-                        if(gods.includes(godName.toLowerCase()) && !banList.includes(godName.toLowerCase())){ //if the god name is in this list, its viable to ban
-                            banList.push(godName.toLowerCase());
+                        if (gods.includes(godName.trim().toLowerCase()) && !banList.includes(godName.trim().toLowerCase())) { //if the god name is in this list, its viable to ban
+                            banList.push(godName.trim().toLowerCase());
                             write.write(JSON.stringify(client.userList));
                             message.channel.send("Added " + godName + " to " + message.author.username + "'s ban list.");
                         } else {
-                            if(banList.includes(godName.toLowerCase())){
+                            if (banList.includes(godName.trim().toLowerCase())) {
                                 message.channel.send("SMITE God already banned.");
                             } else {
                                 message.channel.send("Invalid SMITE God name given.");
@@ -95,5 +80,4 @@ exports.run = (client, message, args) => {
             }
         }
     }
-
 }
