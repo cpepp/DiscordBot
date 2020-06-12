@@ -25,7 +25,7 @@ exports.createSession = async function () {
 
     await fetch(req)
         .then(response => response.json())
-        .then(result => fs.writeFile("./../session.json", JSON.stringify(result), function (e, result) {
+        .then(result => fs.writeFile("./session.json", JSON.stringify(result), function (e, result) {
             //writes result to file, logs session id and timestamp session was created.
             console.log("Session call result written to file.");
             if (e) {

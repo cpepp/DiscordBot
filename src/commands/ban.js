@@ -19,7 +19,7 @@ exports.run = (client, message, args) => {
     for (var i = 0; i < client.userList.length; i++) {
         if (message.author.id === client.userList[i].id) {
             var banList = client.userList[i].bans;
-            if (args[0] === 'list') {
+            if (args[0] === 'list') { //lists banned gods
                 var reply = message.author.username + "'s banned Gods are: ";
                 for (var j = 0; j < banList.length; j++) {
                     reply += banList[j];
@@ -28,7 +28,7 @@ exports.run = (client, message, args) => {
                     }
                 }
                 message.channel.send(reply);
-            } else if (args[0] === 'remove') {
+            } else if (args[0] === 'remove') { //removes a god from users ban list
                 if (args.length < 2) {
                     message.channel.send("Specify a God to remove from ban list.");
                     return;
@@ -49,34 +49,30 @@ exports.run = (client, message, args) => {
                 }
                 write.write(JSON.stringify(client.userList));
                 message.channel.send("Removed " + args[1] + " from " + message.author.username + "'s God ban list.");
-            } else {
+            } else { //adds god to list
                 var godName = '';
                 args.forEach(str => { //for gods with multi string names, Ao Kuang, Hun Batz, etc.
                     godName += " " + str;
                 });
 
-                session.checkSession();
+                let godData = client.godList; //get gods list
 
-                var URL = session.loadgods(client.sessionInfo.session_id);
-                fetch(URL) //gets god list
-                    .then(response => response.json())
-                    .then(result => {
-                        var gods = [];
-                        result.forEach(god => {
-                            gods.push(god.Name.toLowerCase());
-                        });
-                        if (gods.includes(godName.trim().toLowerCase()) && !banList.includes(godName.trim().toLowerCase())) { //if the god name is in this list, its viable to ban
-                            banList.push(godName.trim().toLowerCase());
-                            write.write(JSON.stringify(client.userList));
-                            message.channel.send("Added " + godName + " to " + message.author.username + "'s ban list.");
-                        } else {
-                            if (banList.includes(godName.trim().toLowerCase())) {
-                                message.channel.send("SMITE God already banned.");
-                            } else {
-                                message.channel.send("Invalid SMITE God name given.");
-                            }
-                        }
-                    });
+                var gods = []; //array of lowercase god names
+                Object.keys(godData).forEach(key => {
+                    gods.push(godData[key].Name.toLowerCase());
+                });
+                if (gods.includes(godName.trim().toLowerCase()) && !banList.includes(godName.trim().toLowerCase())) { 
+                    //if the god name is in this list, its viable to ban
+                    banList.push(godName.trim().toLowerCase());
+                    write.write(JSON.stringify(client.userList));
+                    message.channel.send("Added " + godName + " to " + message.author.username + "'s ban list.");
+                } else {
+                    if (banList.includes(godName.trim().toLowerCase())) {
+                        message.channel.send("SMITE God already banned.");
+                    } else {
+                        message.channel.send("Invalid SMITE God name given.");
+                    }
+                }
             }
         }
     }

@@ -1,6 +1,4 @@
 const fetch = require("node-fetch");
-const session = require("./../session.js");
-const fs = require("fs");
 
 exports.run = async (client, message, args) => {
     //example command

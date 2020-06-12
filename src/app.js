@@ -20,7 +20,7 @@ client.config = config;
 client.sessionInfo;
 
 var sess = async () => {
-	let info = await fspr.readFile("./../session.json", "utf-8");
+	let info = await fspr.readFile("./session.json", "utf-8");
 	console.log("Loading session info.");
 	return JSON.parse(info);
 }
@@ -46,8 +46,8 @@ var userList = [];
 client.userList = userList;
 
 try {
-	if (fs.existsSync("./../users.json")) {
-		fs.readFile("./../users.json", function (er, jsonString) {
+	if (fs.existsSync("./users.json")) {
+		fs.readFile("./users.json", function (er, jsonString) {
 			if (er) {
 				console.log("Failed ", er);
 				return;
@@ -62,7 +62,7 @@ try {
 	console.error(err);
 }
 
-fs.readdir("./events/", (err, files) => {
+fs.readdir("./src/events/", (err, files) => {
 	if (err) return console.error(err);
 	files.forEach(file => {
 		if (!file.endsWith(".js")) return;
@@ -75,7 +75,7 @@ fs.readdir("./events/", (err, files) => {
 
 client.commands = new Enmap();
 
-fs.readdir("./commands/", (e, files) => {
+fs.readdir("./src/commands/", (e, files) => {
 	if (e) {
 		return console.error(e);
 	}
