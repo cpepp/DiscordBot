@@ -35,12 +35,19 @@ exports.run = async (client, message, args) => {
         }
     });
 
-    let subgods = gods.filter(function (ind) { //fix to filter ban list
-        return user.bans.indexOf(ind) === -1;
+    let banList = user.bans;
+
+    let subgods = gods.filter(function (ind) { //filters out gods from ban list
+        return !banList.includes((ind.Name).toLowerCase());
     });
 
-    let p = Math.floor(Math.random() * subgods.length);
+    if (subgods.length == 0) {
+        message.reply("there are no viable Gods to choose from due to your bans!");
+    } else {
+        let p = Math.floor(Math.random() * subgods.length);
 
-    message.reply(reply + subgods[p].Name,
-        { files: [subgods[p].godIcon_URL] });
+        message.reply(reply + subgods[p].Name,
+            { files: [subgods[p].godIcon_URL] });
+    }
+
 }

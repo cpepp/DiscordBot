@@ -64,7 +64,7 @@ exports.run = (client, message, args) => {
                     //if the god name is in this list, its viable to ban
                     banList.push(godName.trim().toLowerCase());
                     write.write(JSON.stringify(client.userList));
-                    message.channel.send("Added " + godName + " to " + message.author.username + "'s ban list.");
+                    message.channel.send("Added" + godName + " to " + message.author.username + "'s ban list.");
                 } else {
                     if (banList.includes(godName.trim().toLowerCase())) {
                         message.channel.send("SMITE God already banned.");
