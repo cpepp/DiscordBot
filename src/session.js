@@ -3,10 +3,10 @@ const dateformat = require("dateformat");
 const fetch = require("node-fetch");
 const fs = require("fs");
 
-const url = "http://api.smitegame.com/smiteapi.svc/";
 const config = require("./../config.json");
 const sessionInfo = require("./../session.json");
-const app = require("./app.js");
+
+const url = "http://api.smitegame.com/smiteapi.svc/";
 const devID = config.devID;
 const auth = config.auth;
 const langCode = "1"; //English language code

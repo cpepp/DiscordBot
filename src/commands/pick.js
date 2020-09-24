@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 
 exports.run = async (client, message, args) => {
     //example command
