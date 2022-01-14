@@ -6,7 +6,7 @@ const fs = require("fs");
 const config = require("./../config.json");
 const sessionInfo = require("./../session.json");
 
-const url = "http://api.smitegame.com/smiteapi.svc/";
+const url = "https://api.smitegame.com/smiteapi.svc/";
 const devID = config.devID;
 const auth = config.auth;
 const langCode = "1"; //English language code
@@ -44,10 +44,14 @@ exports.checkSession = async function () {
     //since it's converted as if it were local, we have to subtract the offset to get the actual UTC time
     let diff = Date.now() - time; //finds time diff between now and when last session was made
     console.log("Min since last session: " + (diff / 60000).toFixed(2));
+    let sess = false;
     if (diff > 900000) { //since sessions are only 15 min, if the diff is greater a new session is created
-        return true;
+        sess = true;
     }
-    return false;
+
+    return new Promise((resolve, reject) => {
+        resolve(sess);
+    });
 }
 
 /**
@@ -64,6 +68,57 @@ exports.loadgods = async function (sessID) {
 
     let getGodsJson;
     console.log("Loading SMITE God data...");
+    try {
+        let getGodsData = await fetch(req);
+        getGodsJson = await getGodsData.json();
+    } catch (error) {
+        console.log(error);
+    }
+
+    return new Promise((resolve, reject) => {
+        resolve(getGodsJson);
+    });
+}
+
+/**
+ * Gets God data.
+ * 
+ * @param {String} sessID sessionID from the session function.
+ * @return {JSON} getgods request data
+ */
+exports.getInformation = async function (sessID, playerName) {
+    let timestamp = dateformat(new Date(), "UTC:yyyymmddHHMMss"); //UTC timestamp
+    let sign = devID + "getmatchhistory" + auth + timestamp; //String to be hashed
+    let signature = CryptoJS.MD5(sign); //MD5 Hash for signature
+    const req = url + "getmatchhistoryJson/" + devID + "/" + signature.toString() + "/" + sessID + "/" + timestamp + "/" + playerName; //request URL
+
+    let getGodsJson;
+    console.log("Getting player info...");
+    try {
+        let getGodsData = await fetch(req);
+        getGodsJson = await getGodsData.json();
+    } catch (error) {
+        console.log(error);
+    }
+
+    return new Promise((resolve, reject) => {
+        resolve(getGodsJson);
+    });
+}
+
+/**
+ * Gets God data.
+ * 
+ * @param {String} sessID sessionID from the session function.
+ * @return {JSON} getgods request data
+ */
+exports.getMatch = async function (sessID, id) {
+    let timestamp = dateformat(new Date(), "UTC:yyyymmddHHMMss"); //UTC timestamp
+    let sign = devID + "getmatchdetails" + auth + timestamp; //String to be hashed
+    let signature = CryptoJS.MD5(sign); //MD5 Hash for signature
+    const req = url + "getmatchdetailsJson/" + devID + "/" + signature.toString() + "/" + sessID + "/" + timestamp + "/" + id; //request URL
+
+    let getGodsJson;
     try {
         let getGodsData = await fetch(req);
         getGodsJson = await getGodsData.json();

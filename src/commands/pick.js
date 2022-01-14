@@ -29,6 +29,7 @@ exports.run = async (client, message, args) => {
 
     let gods = [];
     Object.keys(godData).forEach(key => {
+        console.log(key);
         if (godData[key].Roles.trim().toLowerCase() === role) {
             gods.push(godData[key]);
         }

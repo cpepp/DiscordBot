@@ -28,12 +28,12 @@ const sess = async () => {
 client.godList;
 const lGods = async () => {
 	try {
-		let check = await session.checkSession();
+		let check = Promise.resolve(session.checkSession());
 		if (check) {
 			await session.createSession();
 		}
 		client.sessionInfo = await sess();
-		client.godList = await session.loadgods(client.sessionInfo.session_id);
+		client.godList = session.loadgods(client.sessionInfo.session_id);
 	} catch (error) {
 		console.log(error);
 	}
