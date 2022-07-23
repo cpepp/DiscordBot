@@ -25,7 +25,7 @@ module.exports = (client, message) => {
         console.log("Added new user: " + message.author.username + " with ID " + message.author.id);
     }
 */
-    const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
+    const args = message.content.slice(process.env.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
     const cmd = client.commands.get(command);
