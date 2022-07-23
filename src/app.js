@@ -7,18 +7,18 @@
  * @version 5/27/20
  */
 
-const Discord = require("discord.js");
+const {Client, GatewayIntentBits, Collection} = require("discord.js");
 const fs = require("fs");
 const fspr = require("fs").promises;
-const Enmap = require("enmap");
 const config = require("./../config.json");
 const write = require("./write.js");
 const session = require("./session.js");
-const client = new Discord.Client();
+const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.MessageContent]});
 client.config = config;
 
 client.sessionInfo;
 
+/*
 const sess = async () => {
 	let info = await fspr.readFile("./session.json", "utf-8");
 	console.log("Loading session info.");
@@ -42,6 +42,7 @@ const lGods = async () => {
 
 lGods(); //loads gods into godList variable for global use
 
+
 let userList = [];
 client.userList = userList;
 
@@ -61,33 +62,24 @@ try {
 } catch (err) {
 	console.error(err);
 }
+*/
 
-fs.readdir("./src/events/", (err, files) => {
-	if (err) return console.error(err);
-	files.forEach(file => {
-		if (!file.endsWith(".js")) return;
-		const event = require(`./events/${file}`);
-		let eventName = file.split(".")[0];
-		client.on(eventName, event.bind(null, client));
-		delete require.cache[require.resolve(`./events/${file}`)];
-	});
-});
+const events = fs.readdirSync("./src/events").filter(file => file.endsWith(".js"));
+for (const file of events) {
+  const eventName = file.split(".")[0];
+  const event = require(`./events/${file}`);
+  client.on(eventName, event.bind(null, client));
+}
 
-client.commands = new Enmap();
+client.commands = new Collection();
 
-fs.readdir("./src/commands/", (e, files) => {
-	if (e) {
-		return console.error(e);
-	}
-	files.forEach(file => {
-		if (!file.endsWith(".js")) {
-			return;
-		}
-		let props = require(`./commands/${file}`);
-		let commandName = file.split(".")[0];
-		console.log(`Loading ${commandName}`);
-		client.commands.set(commandName, props);
-	});
-});
+const commands = fs.readdirSync("./src/commands").filter(file => file.endsWith(".js"));
+for (const file of commands) {
+  const commandName = file.split(".")[0];
+  const command = require(`./commands/${file}`);
+
+  console.log(`Attempting to load command ${commandName}`);
+  client.commands.set(commandName, command);
+}
 
 client.login(config.token);

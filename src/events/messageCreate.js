@@ -1,10 +1,11 @@
-const write = require("./../write.js");
+const write = require("../write.js");
 
 module.exports = (client, message) => {
+    
     if (message.author.bot || !message.content.startsWith(client.config.prefix)) {
         return;
     }
-
+/*
     let noAccount = true;
     for (var i = 0; i < client.userList.length; i++) { //checks if user already has data in json, probably better way to check
         if (client.userList[i].id === message.author.id) {
@@ -23,7 +24,7 @@ module.exports = (client, message) => {
         write.write(JSON.stringify(client.userList));
         console.log("Added new user: " + message.author.username + " with ID " + message.author.id);
     }
-
+*/
     const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
