@@ -12,7 +12,7 @@ const fs = require("fs");
 const fspr = require("fs").promises;
 //const config = require("./../config.json");
 const write = require("./write.js");
-const session = require("./session.js");
+//const session = require("./session.js");
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.MessageContent]});
 //client.config = config;
 
