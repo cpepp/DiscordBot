@@ -1,8 +1,8 @@
 const write = require("../write.js");
 
 module.exports = (client, message) => {
-    
-    if (message.author.bot || !message.content.startsWith(client.config.prefix)) {
+
+    if (message.author.bot || !message.content.startsWith(process.env.prefix)) {
         return;
     }
 /*
