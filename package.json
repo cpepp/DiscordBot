@@ -1,0 +1,29 @@
+{
+  "name": "DiscordBot",
+  "version": "1.0.0",
+  "description": "Discord bot project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpepp/DiscordBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cpepp/DiscordBot/issues"
+  },
+  "homepage": "https://github.com/cpepp/DiscordBot#readme",
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "dateformat": "^3.0.3",
+    "discord.js": "^14.0.3",
+    "enmap": "^5.2.4",
+    "node-fetch": "^2.6.0",
+    "stocksocket": "^1.1.2",
+    "ws": "^7.4.2"
+  }
+}
