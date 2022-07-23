@@ -10,11 +10,11 @@
 const {Client, GatewayIntentBits, Collection} = require("discord.js");
 const fs = require("fs");
 const fspr = require("fs").promises;
-const config = require("./../config.json");
+//const config = require("./../config.json");
 const write = require("./write.js");
 const session = require("./session.js");
 const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.MessageContent]});
-client.config = config;
+//client.config = config;
 
 client.sessionInfo;
 
@@ -82,4 +82,4 @@ for (const file of commands) {
   client.commands.set(commandName, command);
 }
 
-client.login(config.token);
+client.login(process.env.token);
